@@ -13,7 +13,7 @@ module Dominator
       projects = Project.find_projects(*args)
       if File.exist?(CONFIG_PATH)
         config = YAML.load_file(CONFIG_PATH)
-        projects.select! { |project| config['Include'].include?(project.name) }
+        projects.select! { |project| config['Include'].include?(project.full_name) }
       end
 
       # formatter = ConsoleFormatter.new(projects)

@@ -29,8 +29,12 @@ module Dominator
     end
     attr_reader :root
 
+    def full_name
+      "#{File.basename(File.dirname(root))}/#{name}"
+    end
+
     def name
-      @name ||= "#{File.basename(File.dirname(root))}/#{File.basename(root)}"
+      File.basename(root)
     end
 
     def ruby_version

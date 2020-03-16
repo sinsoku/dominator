@@ -80,7 +80,7 @@ module Dominator
     def format_cop_value(hash)
       hash.reject { |k, _v| ['Include', 'Exclude'].include?(k) }
         .map { |k, v| "#{k}: #{v}" }
-        .join(', ')
+        .join('<br>')
     end
   end
 end
