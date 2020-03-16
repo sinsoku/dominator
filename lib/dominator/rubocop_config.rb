@@ -7,6 +7,10 @@ module Dominator
       @todo_str = todo_str
     end
 
+    def requires
+      Array(merged_yaml['require'])
+    end
+
     def departments
       cops.keys.map { |k| k.split('/')[0] }.uniq
     end

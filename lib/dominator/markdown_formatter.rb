@@ -32,6 +32,8 @@ module Dominator
       buf << ['bundler', *projects.map(&:bundler_version)]
       buf << ['rails', *projects.map(&:rails_version)]
       buf << ['rubocop', *projects.map(&:rubocop_version)]
+      rubocop_gems = projects.map { |project| project.rubocop_config.requires.join('<br>') }
+      buf << ['rubocop gems', *rubocop_gems]
 
       md_table(buf)
     end
