@@ -7,8 +7,12 @@ module Dominator
       @todo_str = todo_str
     end
 
-    def cops
-      merged_yaml.select { |k, _v| k.include?('/') }
+    def departments
+      cops.keys.map { |k| k.split('/')[0] }.uniq
+    end
+
+    def cops(department = nil)
+      merged_yaml.select { |k, _v| k.include?("#{department}/") }
     end
 
     private

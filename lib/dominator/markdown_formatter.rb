@@ -13,7 +13,10 @@ module Dominator
       buf << "## Gems"
       buf << gems_block
       buf << "## Cops"
-      buf << cops_block
+      Project.departments(projects).each do |department|
+        buf << "### #{department}"
+        buf << cops_block(department)
+      end
 
       buf.join("\n\n")
     end
@@ -49,17 +52,23 @@ module Dominator
       md_table(buf)
     end
 
-    def cops_block
+    def cops_block(department)
       buf = []
       buf << ['project', *projects.map(&:name)]
+      disabled_size = projects.map do |project|
+        cops = project.rubocop_config.cops(department)
+        cops.select { |k, v| v['Enabled'] == false }.size
+      end
+      buf << ['disabled size', *disabled_size]
 
       cop_names = Project.cop_names(projects)
+        .select { |cop_name| cop_name.include?(department) }
       cop_names.each do |cop_name|
         cop_values = projects.map do |project|
           cop = project.rubocop_config.cops[cop_name]
           format_cop_value(cop) if cop
         end
-        buf << [cop_name, *cop_values]
+        buf << [cop_name.delete("#{department}/"), *cop_values]
       end
 
       md_table(buf)

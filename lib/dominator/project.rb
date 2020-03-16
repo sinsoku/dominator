@@ -22,6 +22,11 @@ module Dominator
         projects.flat_map { |project| project.rubocop_config.cops.keys }
           .uniq.sort
       end
+
+      def departments(projects)
+        projects.flat_map { |project| project.rubocop_config.departments }
+          .uniq.sort
+      end
     end
 
     def initialize(root)
