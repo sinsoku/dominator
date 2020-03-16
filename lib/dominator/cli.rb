@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Dominator
+  CONFIG_PATH = '.dominator.yml'
+
   class CLI
     def self.invoke(args = ARGV)
       if args.empty?
@@ -9,6 +11,10 @@ module Dominator
       end
 
       projects = Project.find_projects(*args)
+      if File.exist?(CONFIG_PATH)
+        config = YAML.load_file(CONFIG_PATH)
+        projects.select! { |project| config['Include'].include?(project.name) }
+      end
 
       puts '## Projects'
       projects.each do |project|
