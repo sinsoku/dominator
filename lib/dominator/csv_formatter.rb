@@ -21,7 +21,8 @@ module Dominator
             spec&.version.to_s
           end
           cop_values = cop_names.map do |cop_name|
-            project.rubocop_config.cops[cop_name]
+            cop = project.rubocop_config.cops[cop_name]
+            cop['Enabled'] || cop['Max'] if cop
           end
 
           row = [
