@@ -12,6 +12,16 @@ module Dominator
         end
         projects.sort_by(&:name)
       end
+
+      def spec_names(projects)
+        projects.flat_map { |project| project.specs.map(&:name) }
+          .uniq.sort
+      end
+
+      def cop_names(projects)
+        projects.flat_map { |project| project.rubocop_config.cops.keys }
+          .uniq.sort
+      end
     end
 
     def initialize(root)
