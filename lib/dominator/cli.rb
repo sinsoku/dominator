@@ -17,7 +17,8 @@ module Dominator
       end
 
       # formatter = ConsoleFormatter.new(projects)
-      formatter = CsvFormatter.new(projects)
+      # formatter = CsvFormatter.new(projects)
+      formatter = MarkdownFormatter.new(projects)
       puts formatter
     end
   end

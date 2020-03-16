@@ -41,6 +41,16 @@ module Dominator
       parser&.bundler_version.to_s
     end
 
+    def rails_version
+      rubocop_spec = specs.find { |spec| spec.name == 'rails' }
+      rubocop_spec&.version.to_s
+    end
+
+    def rubocop_version
+      rubocop_spec = specs.find { |spec| spec.name == 'rubocop' }
+      rubocop_spec&.version.to_s
+    end
+
     def specs
       parser ? parser.specs : []
     end
