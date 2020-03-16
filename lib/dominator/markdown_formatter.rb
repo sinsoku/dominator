@@ -95,8 +95,7 @@ module Dominator
     end
 
     def format_cop_value(hash)
-      hash.reject { |k, _v| ['Include', 'Exclude'].include?(k) }
-        .map { |k, v| "#{k}: #{v}" }
+      hash.map { |k, v| ['Include', 'Exclude'].include?(k) ? "#{k}: ..." : "#{k}: #{v}" }
         .join('<br>')
     end
   end
