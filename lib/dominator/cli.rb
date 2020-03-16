@@ -16,7 +16,8 @@ module Dominator
         projects.select! { |project| config['Include'].include?(project.name) }
       end
 
-      formatter = ConsoleFormatter.new(projects)
+      # formatter = ConsoleFormatter.new(projects)
+      formatter = CsvFormatter.new(projects)
       puts formatter
     end
   end

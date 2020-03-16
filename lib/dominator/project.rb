@@ -61,7 +61,7 @@ module Dominator
 
     def safe_read(filename)
       path = "#{root}/#{filename}"
-      File.read(path) if File.exist?(path)
+      File.read(path).strip if File.exist?(path)
     end
   end
 end
