@@ -41,9 +41,9 @@ module Dominator
       spec_names.each do |spec_name|
         versions = projects.map do |project|
           spec = project.specs.find { |spec| spec.name == spec_name }
-          spec&.version.to_s
+          spec.version.to_s if spec
         end
-        buf << [spec_name, *versions]
+        buf << [spec_name, *mark_min(versions)]
       end
 
       md_table(buf)
@@ -72,6 +72,14 @@ module Dominator
 
       [header, separator, *rows].join("\n")
     end
+
+    def mark_min(rows)
+      return rows if rows.compact.uniq.size < 2
+
+      min = rows.compact.sort_by { |version| Gem::Version.new(version) }.first
+      rows.map { |v| v == min ? ":gem: **#{v}**" : v }
+    end
+
 
     def md_row(array)
       "| #{array.join(' | ')} |"
