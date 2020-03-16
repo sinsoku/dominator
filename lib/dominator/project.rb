@@ -31,11 +31,8 @@ module Dominator
       parser&.bundler_version.to_s
     end
 
-    def rubocop_version
-      return unless parser
-
-      rubocop_spec = parser.specs.find { |spec| spec.name == 'rubocop' }
-      rubocop_spec&.version.to_s
+    def specs
+      parser ? parser.specs : []
     end
 
     def rubocop_config

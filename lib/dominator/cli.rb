@@ -22,15 +22,24 @@ module Dominator
       end
       puts
 
+      spec_names = projects.flat_map { |project| project.specs.map(&:name) }
+        .uniq.sort
+      cop_names = projects.flat_map { |project| project.rubocop_config.cops.keys }
+        .uniq.sort
+
       projects.each do |project|
         puts "## #{project.name}"
         puts "ruby: #{project.ruby_version}"
         puts "bundler: #{project.bundler_version}"
-        puts "rubocop: #{project.rubocop_version}"
         puts
-        puts "## Cops size: #{project.rubocop_config.cops.size}"
-        project.rubocop_config.cops.each do |cop|
-          puts cop
+        spec_names.each do |spec_name|
+          spec = project.specs.find { |spec| spec.name == spec_name }
+          puts "#{spec_name}: #{spec&.version.to_s}"
+        end
+        puts
+        cop_names.each do |cop_name|
+          cop = project.rubocop_config.cops[cop_name]
+          puts "#{cop_name}: #{cop}"
         end
         puts
       end
