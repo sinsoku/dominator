@@ -65,12 +65,19 @@ module Dominator
 
       cop_names = Project.cop_names(projects)
         .select { |cop_name| cop_name.include?(department) }
+      threshold = projects.size * 0.5
+
       cop_names.each do |cop_name|
         cop_values = projects.map do |project|
           cop = project.rubocop_config.cops[cop_name]
           format_cop_value(cop) if cop
         end
-        buf << [cop_name.sub("#{department}/"), *cop_values]
+        disabled_size = projects.count do |project|
+          cop = project.rubocop_config.cops[cop_name]
+          cop && cop['Enabled'] == false
+        end
+        name = cop_name.sub("#{department}/", '')
+        buf << [(disabled_size >= threshold ? "(disabled) #{name}" : name), *cop_values]
       end
 
       md_table(buf)
