@@ -77,7 +77,7 @@ module Dominator
           cop && cop['Enabled'] == false
         end
         name = cop_name.sub("#{department}/", '')
-        buf << [(disabled_size >= threshold ? "(disabled) #{name}" : name), *cop_values]
+        buf << [(disabled_size >= threshold ? ":hear_no_evil: #{name}" : name), *cop_values]
       end
 
       md_table(buf)
