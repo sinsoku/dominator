@@ -70,7 +70,7 @@ module Dominator
           cop = project.rubocop_config.cops[cop_name]
           format_cop_value(cop) if cop
         end
-        buf << [cop_name.delete("#{department}/"), *cop_values]
+        buf << [cop_name.sub("#{department}/"), *cop_values]
       end
 
       md_table(buf)
